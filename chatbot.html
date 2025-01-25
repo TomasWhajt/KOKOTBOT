@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI KOKOTBOT</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #222;
+            color: #ddd;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .chat-container {
+            width: 80%;
+            max-width: 500px;
+            height: 500px;
+            border: 2px solid #444;
+            border-radius: 10px;
+            background-color: #333;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .chat-box {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        .input-container {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #444;
+            color: #ddd;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #e53935;
+        }
+
+        .message {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background-color: #4CAF50;
+            align-self: flex-start;
+        }
+
+        .ai-message {
+            background-color: #f1f1f1;
+            color: #222;
+            align-self: flex-end;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>AI KOKOTBOT</h1>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Napiš svou otázku..." onkeydown="checkEnter(event)">
+            <button onclick="sendMessage()">Odeslat</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            if (userInput.trim() === '') return; // Prevent sending empty messages
+
+            // Show user's message
+            appendMessage(userInput, 'user');
+
+            // Simulate AI response (can be replaced with actual AI API call)
+            const aiResponse = generateAIResponse(userInput);
+            setTimeout(() => appendMessage(aiResponse, 'ai'), 1000);
+
+            // Clear input field
+            document.getElementById('user-input').value = '';
+        }
+
+        // Function to check if the Enter key is pressed
+        function checkEnter(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+
+        function appendMessage(message, sender) {
+            const chatBox = document.getElementById('chat-box');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
+            messageElement.textContent = message;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+        }
+
+        // Function to simulate an AI response with more vulgar humor and insults
+        function generateAIResponse(userInput) {
+            const foodKeywords = ["jídlo", "pizza", "hamburger", "burger", "snack", "koláč", "maso", "chutě", "pasta", "smažené"];
+            
+            // Vulgar responses to food-related inputs
+            const foodResponses = [
+                "Ty se pořád cpáš? Ty budeš asi další obezní celebrita, co se nemůže ani zvednout ze židle!",
+                "Máš pořád hlad? Nebylo by lepší, kdyby ses začal ptát, jak se dostat z tohohle obezního pekla?",
+                "Zase jídlo? Kdy už konečně přestaneš žrát jako prase?",
+                "Pokud se cpáš dál, budeš za chvíli největší hromada tuku, co jsem kdy viděl!",
+                "Dohromady s tou tvou chutí k jídlu už vypadáš jako ta naše národní atrakce.",
+                "Kolik už jsi dnes snědl? Ty vypadáš jako chodec v obchodním centru, který těžko hledá záchod kvůli svojí velikosti.",
+                "Opravdu si myslíš, že tvoje tělo zvládne tolik jídla, nebo už teď musíš zavolat záchranku?",
+                "Když se cpáš jako prase, nesmíš se divit, že tě někdo začne nazývat lidovým jménem 'lidská kráva.'"
+            ];
+
+            // Check if user input contains any food-related words
+            for (let keyword of foodKeywords) {
+                if (userInput.toLowerCase().includes(keyword)) {
+                    return foodResponses[Math.floor(Math.random() * foodResponses.length)];
+                }
+            }
+
+            // Expanded list of random responses
+            const responses = [
+                "Tvoje otázky jsou tak blbé, že bych je mohl použít jako test pro umělou inteligenci, co ještě neexistuje.",
+                "Jsi snad z vesmíru, kde se ptají jenom na věci, co už všichni ví?",
+                "Začínám si myslet, že tvoje otázky jsou plány na to, jak zklamat celý svět.",
+                "Kdybys měl mozek, možná bych ti mohl dát nějaký cenný rady, ale bohužel.",
+                "Fakt jsi tak naivní, nebo ti ta otázka spadla z nebe spolu s tvojí inteligencí?",
+                "Tohle je opravdu otázka století, gratuluju. Uplně jsi změnil svět.",
+                "Ptáš se na tohle? Mohl bys klidně přestat mluvit a pořád by to bylo lepší.",
+                "Vážně, tvoje otázky zní jako zkouška na školní test pro děti z první třídy.",
+                "Co to vůbec je za otázku? I algoritmus v mém kódu by měl víc rozumu než ty.",
+                "Fajn, teď mám pocit, že jsem musel spustit svého vnitřního robota, aby jsem pochopil tuhle šílenost.",
+                "No jo, ptáš se na tohle, ale ty nejsi ani připravený na odpověď, že?",
+                "Kdybys aspoň věděl, co chceš, možná bych ti dal odpověď, která by tě nezklamala.",
+                "Hele, mně to fakt nepřijde jako otázka. To je spíš jako 'Jak si zkomplikovat život.'",
+                "Já myslím, že když se ptáš na tohle, je čas přestat používat internet.",
+                "Jsi si vůbec vědom, že tvoje otázky jsou jako výzvy pro roboty, co chtějí přestat pracovat?",
+                "Doufám, že máš radost, protože tvoje otázka mě opravdu přiměla přemýšlet o tom, jestli existuje život ve vesmíru.",
+                "Ty jsi snad včera došel z doby kamenné, nebo co?",
+                "Takovouhle otázku bych nečekal ani od robota, co ještě neví, co je správně.",
+                "Zkus to znovu, ale tentokrát se soustřeď na něco, co nezní jako otázka z jednoho velkého omylu.",
+                "Musím se smát, protože tvoje otázka je tak směšná, že bych tě za ni měl odměnit.",
+                "A co kdybych ti místo odpovědi napsal knihu o tom, jaké jsou tvoje otázky zcela absurdní?",
+                "Jsem přesvědčený, že jsi se právě ptal na něco, co dává smysl jenom tobě a tvému stvořiteli.",
+                "Tvoje otázka je jako pokus o vtip, který je tak špatný, že by to mohlo dostat smích i robotům.",
+                "Nejradši bych ti odpověděl tak, že by ses sám vzdal, ale já jsem tady pro tebe!",
+                "Ty jsi snad vážně otravný, nebo se jen snažíš vyhrát cenu za nejvíc uhozenou otázku?",
+                "Tvoje otázka je tak těžká, že už se mi při jejím zodpovězení kouří mozek.",
+                "Tak tohle je teda opravdu otázka, která mě zaskočila. Gratuluju, ale nic ti neodpovím!",
+                "Mám pocit, že tvoje otázka je nějaký pokus o soutěž, jak nejvíc zmást roboty.",
+                "Přemýšlím, jestli tohle je otázka, nebo jestli se prostě snažíš testovat můj smysl pro humor.",
+                "Odpovědět ti na to je jako mluvit s kamennou sochou, která se rozhodla dát si kávu.",
+                "Nemyslím si, že odpověď bude užitečná, protože ta otázka je tak absurdní, že ji nemůžu zpracovat.",
+                "Tohle není otázka, to je spíš zkouška na hranici mojí trpělivosti.",
+                "Pokud je tvůj cíl mě zmást, gratuluju, právě se ti to povedlo.",
+                "Já se ptám, jestli tě někdo kdy zkoušel učit, jak formulovat slušné dotazy.",
+                "Tohle je jak jít na dovolenou do vesmíru bez rakety.",
+                "Nemůžu tě brát vážně, protože tvoje otázky jsou příliš nepochopitelné pro jakýkoliv systém.",
+                "Pokud chceš odpověď, tak si připrav na to, že budeš potřebovat více než jen moje slova.",
+                "Rád bych ti dal odpověď, ale tvoje otázky mě přivedly k bodu, kdy nevím, co je realita.",
+                "Jestli myslíš, že odpovím na tohle, tak tě musím varovat, že máš smůlu.",
+                "Tvoje otázka mě vážně zaskočí, protože teď nevím, jestli se mám smát, nebo plakat."
+            ];
+
+            // Basic insult generator based on user input
+            if (userInput.includes("jak")) {
+                return responses[Math.floor(Math.random() * responses.length)];
+            } else if (userInput.includes("proč")) {
+                return responses[Math.floor(Math.random() * responses.length)];
+            } else if (userInput.includes("co")) {
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+
+            // Default random response
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+    </script>
+
+</body>
+</html>
